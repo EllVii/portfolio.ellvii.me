@@ -1,296 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KCS Coaching & Process Documentation Framework — KB Article</title>
-  <link rel="icon" href="/logo.png" type="image/png" />
-  <style>
-    :root{
-      --gold:#DAA520; --ink:#111; --muted:#6b7280; --bg:#ffffff; --card:#f9fafb;
-    }
-    body{
-      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--ink); background:var(--bg); line-height:1.6; margin:0; padding:0;
-    }
-    .kb{ max-width:860px; margin:40px auto; padding:0 20px; }
-    .bar{ height:8px; background:var(--gold); border-radius:0 0 8px 8px; }
-    h1{ font-size:28px; margin:18px 0 8px; }
-    .meta{ color:var(--muted); font-size:13px; margin-bottom:10px; }
-    h2{ font-size:20px; margin-top:26px; margin-bottom:8px; }
-    p{ margin:8px 0; }
-    .card{ background:var(--card); border:1px solid #e5e7eb; border-radius:12px; padding:16px; }
-    table{ width:100%; border-collapse:collapse; margin:10px 0; }
-    th,td{ border:1px solid #e5e7eb; padding:10px; text-align:left; }
-    th{ background:var(--gold); color:#fff; }
-    .btn{ display:inline-block; padding:10px 14px; border-radius:10px; border:1px solid var(--gold); color:var(--ink); text-decoration:none; font-weight:600; }
-    .btn:hover{ background:var(--gold); color:#fff; }
-    .footer{ color:var(--muted); font-size:12px; margin-top:24px; border-top:2px solid var(--gold); padding-top:12px; }
-    ul,ol{ padding-left:20px; }
-    .tag{ display:inline-block; background:#fff7e6; color:#7c5800; border:1px solid var(--gold); padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }
-    .util-top{ text-align:right; margin-top:6px; position:sticky; top:8px; z-index:10; }
-    .util-bottom{ text-align:right; margin:18px 0 8px 0; }
-  </style>
-</head>
-  <!-- === Floating Portfolio Chatbot === -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KCS Coaching & Process Documentation Framework — KB Article</title>
 <style>
-  :root { --gold:#DAA520; --ink:#111; --muted:#6b7280; --bg:#fff; --card:#f9fafb; }
-  .lpb-fab {
-    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: var(--gold); color: #fff; display:flex; align-items:center; justify-content:center;
-    border:none; box-shadow:0 10px 30px rgba(0,0,0,.15); cursor:pointer; font-size:22px;
+  :root {
+    --gold: #DAA520;
+    --ink: #111;
+    --muted: #6b7280;
+    --bg: #ffffff;
+    --card: #f9fafb;
   }
-  .lpb-fab:focus { outline: 2px solid #000; outline-offset: 2px; }
-  .lpb-panel {
-    position: fixed; bottom: 88px; right: 20px; z-index: 9999;
-    width: 360px; max-width: calc(100vw - 24px); height: 520px; max-height: calc(100vh - 100px);
-    background: var(--bg); border: 1px solid #e5e7eb; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.18);
-    display: none; overflow: hidden;
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
   }
-  .lpb-header {
-    background: var(--card); border-bottom: 1px solid #e5e7eb; padding: 10px 12px; cursor: move;
-    display:flex; align-items: center; justify-content: space-between;
-  }
-  .lpb-title { font-weight: 700; font-size: 14px; color: var(--ink); }
-  .lpb-controls { display:flex; gap:8px; }
-  .lpb-btn {
-    border: 1px solid #e5e7eb; background:#fff; color: var(--ink); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor:pointer;
-  }
-  .lpb-body { height: calc(100% - 120px); overflow:auto; padding: 12px; background:#fff; }
-  .lpb-msg { border:1px solid #e5e7eb; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; font-size: 14px; }
-  .lpb-msg.user { background:#fff; }
-  .lpb-msg.bot { background: var(--card); }
-  .lpb-footer { border-top:1px solid #e5e7eb; padding:10px; background:#fff; }
-  .lpb-row { display:flex; gap:8px; }
-  .lpb-input {
-    flex:1; border:1px solid #e5e7eb; border-radius: 10px; padding:10px 12px; font-size: 14px;
-  }
-  .lpb-send {
-    border:1px solid var(--gold); color: var(--ink); background:#fff; font-weight:700; border-radius:10px; padding:10px 12px; cursor:pointer;
-  }
-  .lpb-chipbar { padding: 8px 10px; border-bottom:1px solid #e5e7eb; display:flex; gap:6px; flex-wrap:wrap; background:#fff; }
-  .lpb-chip {
-    border:1px solid var(--gold); border-radius: 999px; padding: 4px 10px; font-size: 12px; cursor:pointer; background:#fff; color: var(--ink);
-  }
-  .lpb-card { border:1px solid #e5e7eb; border-radius:12px; padding: 10px 12px; background:#fff; margin: 6px 0; }
-  .lpb-tags { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
-  .lpb-tag { border:1px solid var(--gold); border-radius:999px; padding: 2px 8px; font-size: 11px; }
-  .lpb-cta { display:inline-block; border:1px solid var(--gold); border-radius:10px; padding:6px 10px; font-size:12px; font-weight:700; text-decoration:none; color:var(--ink); margin-right:6px; }
-  .lpb-resize {
-    position:absolute; right:6px; bottom:6px; width:14px; height:14px; cursor: nwse-resize; opacity:.35;
-    border-right:2px solid #888; border-bottom:2px solid #888; transform: translate(2px,2px);
-  }
-  @media (max-width: 480px){
-    .lpb-panel { width: calc(100vw - 24px); height: 70vh; right: 12px; bottom: 80px; }
-  }
+  .kb { max-width: 860px; margin: 40px auto; padding: 0 20px; }
+  .bar { height: 8px; background: var(--gold); border-radius: 0 0 8px 8px; }
+  h1 { font-size: 28px; margin: 18px 0 8px; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  h2 { font-size: 20px; margin-top: 26px; margin-bottom: 8px; }
+  p { margin: 8px 0; }
+  .card { background: var(--card); border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th, td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+  th { background: var(--gold); color: white; }
+  .btn { display: inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--gold); color: var(--ink); text-decoration: none; font-weight: 600; }
+  .btn:hover { background: var(--gold); color: white; }
+  .footer { color: var(--muted); font-size: 12px; margin-top: 24px; border-top: 2px solid var(--gold); padding-top: 12px; }
+  ul, ol { padding-left: 20px; }
+  .tag { display: inline-block; background: #fff7e6; color: #7c5800; border: 1px solid var(--gold); padding: 2px 8px; border-radius: 999px; font-size: 12px; margin-right: 6px; }
 </style>
-
-<button class="lpb-fab" id="lpbFab" aria-label="Open portfolio assistant">💬</button>
-
-<div class="lpb-panel" id="lpbPanel" role="dialog" aria-modal="true" aria-labelledby="lpbTitle">
-  <div class="lpb-header" id="lpbHeader">
-    <div class="lpb-title" id="lpbTitle">Portfolio Assistant</div>
-    <div class="lpb-controls">
-      <button class="lpb-btn" id="lpbMin" title="Minimize">–</button>
-      <button class="lpb-btn" id="lpbClose" title="Close">✕</button>
-    </div>
-  </div>
-
-  <div class="lpb-chipbar" id="lpbChips">
-    <button class="lpb-chip">KCS results</button>
-    <button class="lpb-chip">ServiceNow SOP</button>
-    <button class="lpb-chip">HIPAA verification</button>
-    <button class="lpb-chip">BSIT escalation</button>
-  </div>
-
-  <div class="lpb-body" id="lpbBody" tabindex="0" aria-live="polite"></div>
-
-  <div class="lpb-footer">
-    <form class="lpb-row" id="lpbForm">
-      <input class="lpb-input" id="lpbInput" type="text" placeholder="Ask about my experience, metrics, or tools…" />
-      <button class="lpb-send" type="submit">Send</button>
-    </form>
-  </div>
-
-  <div class="lpb-resize" id="lpbResize" aria-hidden="true"></div>
-</div>
-
-<script>
-(function(){
-  const $fab = document.getElementById('lpbFab');
-  const $panel = document.getElementById('lpbPanel');
-  const $header = document.getElementById('lpbHeader');
-  const $body = document.getElementById('lpbBody');
-  const $form = document.getElementById('lpbForm');
-  const $input = document.getElementById('lpbInput');
-  const $close = document.getElementById('lpbClose');
-  const $min = document.getElementById('lpbMin');
-  const $chips = document.getElementById('lpbChips');
-  const $resize = document.getElementById('lpbResize');
-  let fuse, data = [];
-
-  // Open/close
-  function openPanel(){ $panel.style.display = 'block'; $input.focus(); }
-  function closePanel(){ $panel.style.display = 'none'; }
-  $fab.addEventListener('click', openPanel);
-  $close.addEventListener('click', closePanel);
-  $min.addEventListener('click', ()=> $panel.style.display = 'none');
-  window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closePanel(); });
-
-  // Drag move
-  (function enableDrag(){
-    let dragging = false, startX=0, startY=0, startLeft=0, startTop=0;
-    $header.addEventListener('mousedown', (e)=>{
-      dragging = true;
-      startX = e.clientX; startY = e.clientY;
-      const rect = $panel.getBoundingClientRect();
-      startLeft = rect.left; startTop = rect.top;
-      document.body.style.userSelect = 'none';
-    });
-    window.addEventListener('mousemove', (e)=>{
-      if(!dragging) return;
-      const dx = e.clientX - startX, dy = e.clientY - startY;
-      $panel.style.left = (startLeft + dx) + 'px';
-      $panel.style.top = (startTop + dy) + 'px';
-      $panel.style.right = 'auto'; $panel.style.bottom = 'auto';
-    });
-    window.addEventListener('mouseup', ()=>{
-      dragging = false; document.body.style.userSelect = '';
-    });
-  })();
-
-  // Resize
-  (function enableResize(){
-    let resizing = false, startX=0, startY=0, startW=0, startH=0;
-    $resize.addEventListener('mousedown', (e)=>{
-      e.preventDefault();
-      resizing = true;
-      startX = e.clientX; startY = e.clientY;
-      const rect = $panel.getBoundingClientRect();
-      startW = rect.width; startH = rect.height;
-      document.body.style.userSelect = 'none';
-    });
-    window.addEventListener('mousemove', (e)=>{
-      if(!resizing) return;
-      const dw = e.clientX - startX, dh = e.clientY - startY;
-      $panel.style.width = Math.max(300, startW + dw) + 'px';
-      $panel.style.height = Math.max(400, startH + dh) + 'px';
-    });
-    window.addEventListener('mouseup', ()=>{
-      resizing = false; document.body.style.userSelect = '';
-    });
-  })();
-
-  // Utils
-  function post(role, html){
-    const div = document.createElement('div');
-    div.className = 'lpb-msg ' + (role === 'user' ? 'user' : 'bot');
-    div.innerHTML = html;
-    $body.appendChild(div);
-    $body.scrollTop = $body.scrollHeight;
-  }
-  function badge(t){ return `<span class="lpb-tag">${t}</span>`; }
-
-  // Load data
-  async function init(){
-    try{
-      const res = await fetch('/assets/portfolio-index.json', { cache: 'no-store' });
-      data = await res.json();
-      fuse = new Fuse(data, {
-        includeScore: true,
-        threshold: 0.38,
-        keys: ['title','tags','summary','bullets','skills','role','content']
-      });
-      // Intro message
-      post('bot', `Hi! Ask about <b>KCS</b>, <b>ServiceNow SOP</b>, <b>HIPAA</b>, or metrics like <b>AHT</b>.`);
-    }catch(err){
-      console.error('Assistant init failed:', err);
-      post('bot', 'Search unavailable right now.');
-    }
-  }
-  init();
-
-  // Chips (quick intents)
-  $chips.addEventListener('click', (e)=>{
-    if(e.target.classList.contains('lpb-chip')){
-      $input.value = e.target.textContent.trim();
-      $form.dispatchEvent(new Event('submit', {cancelable:true}));
-    }
-  });
-
-  // Submit
-  $form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const q = $input.value.trim();
-    if(!q) return;
-    post('user', q);
-
-    if(!fuse){ post('bot','Search unavailable.'); return; }
-
-    const hits = fuse.search(q).slice(0,5).map(x=>x.item);
-    if(!hits.length){
-      post('bot', `No exact match. Try terms like <b>KCS</b>, <b>ServiceNow</b>, <b>SOP</b>, <b>HIPAA</b>, or <b>dashboard</b>.`);
-    } else {
-      const reply = hits.map(h=>{
-        const metrics = [];
-        if (h.metrics?.repeat_calls_reduction_pct) metrics.push(`↓ Repeat Calls: <b>${h.metrics.repeat_calls_reduction_pct}%</b>`);
-        if (h.metrics?.aht_reduction_pct) metrics.push(`↓ AHT: <b>${h.metrics.aht_reduction_pct}%</b>`);
-        if (h.metrics?.escalation_resolution_improvement_pct) metrics.push(`↓ Escalation Time: <b>${h.metrics.escalation_resolution_improvement_pct}%</b>`);
-        return `
-          <div class="lpb-card">
-            <div style="font-size:12px;color:var(--muted)">${h.type === 'resume' ? 'Source: Resume' : 'Source: Project'}</div>
-            <div style="font-weight:700;margin-top:2px;">${h.title}</div>
-            ${h.summary ? `<div style="font-size:13px;color:#555;margin-top:4px;">${h.summary}</div>` : ''}
-            ${ (h.tags && h.tags.length) ? `<div class="lpb-tags">${h.tags.map(badge).join('')}</div>` : '' }
-            ${ metrics.length ? `<div style="margin-top:6px;font-size:13px;">${metrics.join(' · ')}</div>` : '' }
-            <div style="margin-top:8px;">
-              ${h.url ? `<a class="lpb-cta" href="${h.url}" target="_blank" rel="noopener">Open</a>` : ''}
-              ${h.source_pdf ? `<a class="lpb-cta" href="${h.source_pdf}" target="_blank" rel="noopener">View PDF</a>` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
-      post('bot', reply);
-    }
-    $input.value = '';
-  });
-
-  // Keyboard: "/" focuses input when open
-  window.addEventListener('keydown', (e)=>{
-    if(e.key === '/' && $panel.style.display === 'block' && document.activeElement !== $input){
-      e.preventDefault(); $input.focus();
-    }
-  });
-})();
-</script>
-<!-- === /Floating Portfolio Chatbot === -->
-
+</head>
 <body>
   <div class="kb">
     <div class="bar"></div>
-
-    <h1>🧭 KCS Coaching &amp; Process Documentation Framework</h1>
-
+    <h1>🧭 KCS Coaching & Process Documentation Framework</h1>
     <div class="meta">
-      <strong>Article ID:</strong> KCS-0049 &nbsp;|&nbsp;
-      <strong>Version:</strong> 1.2 &nbsp;|&nbsp;
-      <strong>Last Updated:</strong> Oct 2025 &nbsp;|&nbsp;
-      <strong>Author:</strong> Lawrence Bloodsaw-Velasquez
+      <strong>Article ID:</strong> KCS-0049 &nbsp;|&nbsp; <strong>Version:</strong> 1.2 &nbsp;|&nbsp; <strong>Last Updated:</strong> Oct 2025 &nbsp;|&nbsp; <strong>Author:</strong> Lawrence Bloodsaw-Velasquez
       <div style="margin-top:6px;">
-        <span class="tag">ServiceNow</span>
-        <span class="tag">Confluence</span>
-        <span class="tag">JIRA</span>
-        <span class="tag">Cerberus</span>
-        <span class="tag">Visio</span>
+        <span class="tag">ServiceNow</span><span class="tag">Confluence</span><span class="tag">JIRA</span><span class="tag">Cerberus</span><span class="tag">Visio</span>
       </div>
-    </div>
-
-    <!-- Top-right utility button -->
-    <div class="util-top">
-      <a href="/" class="btn">Back to Portfolio →</a>
     </div>
 
     <div class="card">
@@ -328,7 +83,7 @@
       <li><strong>Triaging Threshold</strong> — minimum of three verified accounts experiencing the same error before elevating to BSIT.</li>
       <li><strong>Linking Protocol</strong> — associate all related JIRAs and Cerberus records to the primary BSIT case to ensure mass resolution and traceable root cause analysis.</li>
     </ol>
-    <p>📄 <a class="btn" href="/assets/BSIT_Process.pdf" target="_blank" rel="noopener">Download BSIT Process (PDF)</a></p>
+    <p>📄 <a class="btn" href="/assets/BSIT_Process.pdf" target="_blank">Download BSIT Process (PDF)</a></p>
 
     <h2>📈 Measured Impact</h2>
     <table>
@@ -350,15 +105,8 @@
     <h2>🏁 Summary of Outcomes</h2>
     <p>The KCS Coaching Framework and BSIT Process SOP transformed a fragmented support operation into a scalable, metrics-driven knowledge ecosystem — delivering measurable efficiency and confidence across the organization.</p>
 
-    <!-- Bottom-right utility button -->
-    <div class="util-bottom">
-      <a href="/" class="btn">Back to Portfolio →</a>
-    </div>
-
     <div class="footer">
-      Lawrence Bloodsaw-Velasquez • Senior Technical Writer &amp; Knowledge Management Specialist •
-      <a href="mailto:The.Velasquez.Law@gmail.com">The.Velasquez.Law@gmail.com</a> •
-      <a href="/" rel="noopener">portfolio.ellvii.me</a>
+      Lawrence Bloodsaw-Velasquez • Senior Technical Writer &amp; Knowledge Management Specialist • <a href="mailto:The.Velasquez.Law@gmail.com">The.Velasquez.Law@gmail.com</a> • <a href="https://portfolio.ellvii.me" target="_blank" rel="noopener">portfolio.ellvii.me</a>
       <div style="margin-top:10px;">
         <a class="btn" href="/assets/KCS_Coaching_and_BSIT_KB.pdf" download>📄 Download PDF</a>
       </div>
