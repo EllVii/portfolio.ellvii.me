@@ -68,30 +68,60 @@
 
   $chips.addEventListener('click',(e)=>{ if(e.target.classList.contains('lpb-chip')){ $input.value=e.target.textContent.trim(); $form.dispatchEvent(new Event('submit',{cancelable:true})); }});
 
-  $form.addEventListener('submit',(e)=>{
-    e.preventDefault(); const q=$input.value.trim(); if(!q) return; post('user', q);
-    if(!fuse){ post('bot','Search unavailable.'); return; }
-    const hits=fuse.search(q).slice(0,5).map(x=>x.item);
-    if(!hits.length){ post('bot','No exact match. Try <b>KCS</b>, <b>ServiceNow</b>, <b>SOP</b>, <b>HIPAA</b>, or <b>dashboard</b>.'); return; }
-    const reply=hits.map(h=>{
-      const m=[]; if(h.metrics?.repeat_calls_reduction_pct) m.push(`↓ Repeat Calls: <b>${h.metrics.repeat_calls_reduction_pct}%</b>`);
-      if(h.metrics?.aht_reduction_pct) m.push(`↓ AHT: <b>${h.metrics.aht_reduction_pct}%</b>`);
-      if(h.metrics?.escalation_resolution_improvement_pct) m.push(`↓ Escalation Time: <b>${h.metrics.escalation_resolution_improvement_pct}%</b>`);
+  $form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const q = $input.value.trim();
+  if(!q) return;
+  post('user', q);
+
+  // 1) Local fuzzy search as before
+  let hits = [];
+  if (fuse) hits = fuse.search(q).slice(0,5).map(x=>x.item);
+
+  if(!hits.length){
+    post('bot','No exact match. Try <b>KCS</b>, <b>ServiceNow</b>, <b>SOP</b>, or <b>HIPAA</b>.');
+  } else {
+    const reply = hits.map(h=>{
+      const metrics=[];
+      if(h.metrics?.repeat_calls_reduction_pct) metrics.push(`↓ Repeat Calls: <b>${h.metrics.repeat_calls_reduction_pct}%</b>`);
+      if(h.metrics?.aht_reduction_pct) metrics.push(`↓ AHT: <b>${h.metrics.aht_reduction_pct}%</b>`);
+      if(h.metrics?.escalation_resolution_improvement_pct) metrics.push(`↓ Escalation Time: <b>${h.metrics.escalation_resolution_improvement_pct}%</b>`);
       return `
         <div class="lpb-card">
           <div style="font-size:12px;color:#6b7280">${h.type==='resume'?'Source: Resume':'Source: Project'}</div>
           <div style="font-weight:700;margin-top:2px;">${h.title}</div>
           ${h.summary?`<div style="font-size:13px;color:#555;margin-top:4px;">${h.summary}</div>`:''}
           ${(h.tags||[]).length?`<div class="lpb-tags">${h.tags.map(t=>'<span class="lpb-tag">'+t+'</span>').join('')}</div>`:''}
-          ${m.length?`<div style="margin-top:6px;font-size:13px;">${m.join(' · ')}</div>`:''}
+          ${metrics.length?`<div style="margin-top:6px;font-size:13px;">${metrics.join(' · ')}</div>`:''}
           <div style="margin-top:8px;">
             ${h.url?`<a class="lpb-cta" href="${h.url}" target="_blank" rel="noopener">Open</a>`:''}
             ${h.source_pdf?`<a class="lpb-cta" href="${h.source_pdf}" target="_blank" rel="noopener">View PDF</a>`:''}
           </div>
         </div>`;
     }).join('');
-    post('bot', reply); $input.value='';
-  });
+    post('bot', reply);
+  }
+
+  // 2) Ask AI for a concise, grounded summary based on the hits
+  try {
+    const aiRes = await fetch('/.netlify/functions/ai', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ q, topHits: hits })
+    });
+    const ai = await aiRes.json();
+    if (ai.text) {
+      post('bot', `<div style="font-weight:600;margin-bottom:6px;">AI summary</div>${ai.text}`);
+    } else if (ai.error) {
+      post('bot', `AI error: ${ai.error}`);
+    }
+  } catch (e) {
+    post('bot', 'AI unreachable. (Network or key config)');
+  }
+
+  $input.value = '';
+});
+
 
   // "/" to focus
   window.addEventListener('keydown',(e)=>{ if(e.key==='/' && $panel.style.display==='block' && document.activeElement!==$input){ e.preventDefault(); $input.focus(); }});
