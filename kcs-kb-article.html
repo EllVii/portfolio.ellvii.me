@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KCS Coaching & Process Documentation Framework — KB Article</title>
+<style>
+  :root {
+    --gold: #DAA520;
+    --ink: #111;
+    --muted: #6b7280;
+    --bg: #ffffff;
+    --card: #f9fafb;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+  .kb { max-width: 860px; margin: 40px auto; padding: 0 20px; }
+  .bar { height: 8px; background: var(--gold); border-radius: 0 0 8px 8px; }
+  h1 { font-size: 28px; margin: 18px 0 8px; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  h2 { font-size: 20px; margin-top: 26px; margin-bottom: 8px; }
+  p { margin: 8px 0; }
+  .card { background: var(--card); border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th, td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+  th { background: var(--gold); color: white; }
+  .btn { display: inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--gold); color: var(--ink); text-decoration: none; font-weight: 600; }
+  .btn:hover { background: var(--gold); color: white; }
+  .footer { color: var(--muted); font-size: 12px; margin-top: 24px; border-top: 2px solid var(--gold); padding-top: 12px; }
+  ul, ol { padding-left: 20px; }
+  .tag { display: inline-block; background: #fff7e6; color: #7c5800; border: 1px solid var(--gold); padding: 2px 8px; border-radius: 999px; font-size: 12px; margin-right: 6px; }
+</style>
+</head>
+<body>
+  <div class="kb">
+    <div class="bar"></div>
+    <h1>🧭 KCS Coaching & Process Documentation Framework</h1>
+    <div class="meta">
+      <strong>Article ID:</strong> KCS-0049 &nbsp;|&nbsp; <strong>Version:</strong> 1.2 &nbsp;|&nbsp; <strong>Last Updated:</strong> Oct 2025 &nbsp;|&nbsp; <strong>Author:</strong> Lawrence Bloodsaw-Velasquez
+      <div style="margin-top:6px;">
+        <span class="tag">ServiceNow</span><span class="tag">Confluence</span><span class="tag">JIRA</span><span class="tag">Cerberus</span><span class="tag">Visio</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🧩 Summary</h2>
+      <p>This article outlines how the <strong>KCS (Coaching) Framework</strong> was designed and implemented to transform fragmented support documentation into a unified knowledge ecosystem. It also showcases a key deliverable — the <strong>BSIT Escalation Process SOP</strong> — as a case study proving measurable operational impact.</p>
+    </div>
+
+    <h2>🔍 Background / The Challenge</h2>
+    <ul>
+      <li>Inconsistent knowledge article quality across business units</li>
+      <li>Limited agent confidence in search results and KB reliability</li>
+      <li>High onboarding friction for new agents</li>
+      <li>Undefined escalation pathways for complex system issues</li>
+    </ul>
+    <p><strong>Business Impact:</strong> Slow resolution times, duplicated tickets, and incomplete engineering handoffs.</p>
+
+    <h2>⚙️ Solution Overview — The KCS Coaching Framework</h2>
+    <p><strong>Goal:</strong> Establish a culture of continuous knowledge improvement supported by metrics and peer accountability.</p>
+    <table>
+      <thead><tr><th>Component</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Article Quality Checklist (AQC)</td><td>Objective rubric evaluating accuracy, structure, and findability.</td></tr>
+        <tr><td>Peer Coaching Program</td><td>Senior agents mentor junior staff on style and taxonomy consistency.</td></tr>
+        <tr><td>Performance &amp; Adoption Dashboard</td><td>Tracks reuse rate, AQC scores, and KCS participation per team.</td></tr>
+        <tr><td>Standardized SOP Templates</td><td>Pre-approved formats for procedures, job aids, and escalations.</td></tr>
+      </tbody>
+    </table>
+    <p><em>Tools Used:</em> ServiceNow KB module, Confluence, JIRA, Cerberus, Visio</p>
+
+    <h2>🧠 Case Study — BSIT System Issue Escalation SOP</h2>
+    <p><strong>Problem Statement:</strong> There was no consistent workflow for escalating system-wide bugs. Agents were logging issues in different tools with no traceability for L3 Engineering, causing duplicate effort and delayed fixes.</p>
+    <ol>
+      <li><strong>Initiate BHCSE JIRA Ticket</strong> — capture customer impact details and environment.</li>
+      <li><strong>Create Cerberus Ticket</strong> — log customer-facing communications and update thread.</li>
+      <li><strong>Triaging Threshold</strong> — minimum of three verified accounts experiencing the same error before elevating to BSIT.</li>
+      <li><strong>Linking Protocol</strong> — associate all related JIRAs and Cerberus records to the primary BSIT case to ensure mass resolution and traceable root cause analysis.</li>
+    </ol>
+    <p>📄 <a class="btn" href="/assets/BSIT_Process.pdf" target="_blank">Download BSIT Process (PDF)</a></p>
+
+    <h2>📈 Measured Impact</h2>
+    <table>
+      <thead><tr><th>Metric</th><th>Before</th><th>After</th><th>Improvement</th></tr></thead>
+      <tbody>
+        <tr><td>Repeat Client Service Calls</td><td>Baseline</td><td>↓</td><td>30%</td></tr>
+        <tr><td>Average Handle Time (AHT)</td><td>Baseline</td><td>↓</td><td>25%</td></tr>
+        <tr><td>Escalation Resolution Time</td><td>Baseline</td><td>↓</td><td>25%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>💡 Lessons Learned &amp; Next Steps</h2>
+    <ul>
+      <li>Embed KCS review checkpoints in the onboarding curriculum.</li>
+      <li>Automate AQC metrics via ServiceNow dashboards.</li>
+      <li>Expand coaching framework to include field technicians and product teams.</li>
+    </ul>
+
+    <h2>🏁 Summary of Outcomes</h2>
+    <p>The KCS Coaching Framework and BSIT Process SOP transformed a fragmented support operation into a scalable, metrics-driven knowledge ecosystem — delivering measurable efficiency and confidence across the organization.</p>
+
+    <div class="footer">
+      Lawrence Bloodsaw-Velasquez • Senior Technical Writer &amp; Knowledge Management Specialist • <a href="mailto:The.Velasquez.Law@gmail.com">The.Velasquez.Law@gmail.com</a> • <a href="https://portfolio.ellvii.me" target="_blank" rel="noopener">portfolio.ellvii.me</a>
+      <div style="margin-top:10px;">
+        <a class="btn" href="/assets/KCS_Coaching_and_BSIT_KB.pdf" download>📄 Download PDF</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
