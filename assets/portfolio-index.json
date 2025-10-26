@@ -1,0 +1,62 @@
+[
+  {
+    "id": "kcs-bsit",
+    "type": "project",
+    "title": "KCS Coaching & BSIT Escalation SOP (Case Study)",
+    "role": "KM Specialist / Sr. Technical Writer",
+    "tags": ["KCS","ServiceNow","Confluence","JIRA","Cerberus","SOP"],
+    "summary": "KCS coaching framework + definitive BSIT SOP; -30% repeat calls, -25% AHT.",
+    "bullets": [
+      "Article Quality Checklist (AQC), peer coaching, adoption dashboards.",
+      "Threshold ≥3 accounts; JIRA↔Cerberus linking protocol for mass resolution."
+    ],
+    "metrics": { "repeat_calls_reduction_pct": 30, "aht_reduction_pct": 25 },
+    "skills": ["KCS","ServiceNow","Confluence","JIRA","Cerberus","Visio"],
+    "url": "/kcs-kb-article.html",
+    "source_pdf": "/assets/KCS_Coaching_and_BSIT_KB.pdf"
+  },
+  {
+    "id": "bsit-bluehost",
+    "type": "project",
+    "title": "BSIT Process — System Issue Reporting & Escalation (Bluehost)",
+    "role": "Technical Writer",
+    "tags": ["Process","Escalation","Bluehost","JIRA","Confluence","Cerberus"],
+    "summary": "Cross-tool escalation workflow with triage rules and L3-ready handoffs.",
+    "bullets": [
+      "Process mapping; cross-tool integration; triage thresholds; engineering handoff."
+    ],
+    "skills": ["JIRA","Confluence","Cerberus","Process"],
+    "url": "https://drive.google.com/file/d/1jDKSVV-7c-GAL-i5EHMfjK_gwNrHI9hm/view?usp=drive_link"
+  },
+  {
+    "id": "hipaa-open-call",
+    "type": "project",
+    "title": "Open Call — Desk-Level Procedure for HIPAA Verification",
+    "role": "Procedure Writer (HIPAA)",
+    "tags": ["HIPAA","Compliance","Call Scripting","IF/THEN","Avaya","Salesforce"],
+    "summary": "Compliance-first branching scripts aligned to Avaya/Salesforce flows.",
+    "skills": ["HIPAA","Scripting","Salesforce","Avaya"],
+    "url": "https://docs.google.com/document/d/1tkZ2aV7IHkxC0GO1cS2dvi2CAEkgK0qWoqkRvdO3yE4/edit?usp=drive_link"
+  },
+  {
+    "id": "fulfillment-jobaid",
+    "type": "project",
+    "title": "How to Send a Document to Fulfillment — Job Aid",
+    "role": "Technical Writer",
+    "tags": ["Job Aid","Fulfillment","Business Continuity"],
+    "summary": "Task-oriented guide: naming, versioning, routing, completion criteria.",
+    "skills": ["Job Aids","Versioning","Handoffs"],
+    "url": "https://docs.google.com/document/d/10ADsoXcCO1kj8lxVWhDOJRn__wEks3IhgEhaLrdNbOg/edit?usp=drive_link"
+  },
+  {
+    "id": "resume-tech-writer",
+    "type": "resume",
+    "title": "Resume — Senior Technical Writer / KM",
+    "role": "Senior Technical Writer / Knowledge Management",
+    "tags": ["Technical Writing","KCS","SOP","Process Design","Coaching"],
+    "summary": "KCS, escalation SOPs, service process clarity; trusted by support & engineering.",
+    "metrics": { "repeat_calls_reduction_pct": 30, "aht_reduction_pct": 25 },
+    "skills": ["ServiceNow","Confluence","JIRA","Cerberus","Visio"],
+    "source_pdf": "/assets/resumes/Lawrence_Resume_TechWriter.pdf"
+  }
+]
