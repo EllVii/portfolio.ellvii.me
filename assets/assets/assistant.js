@@ -96,3 +96,4 @@
   // "/" to focus
   window.addEventListener('keydown',(e)=>{ if(e.key==='/' && $panel.style.display==='block' && document.activeElement!==$input){ e.preventDefault(); $input.focus(); }});
 })();
+Remove old Portfolio Assistant script
