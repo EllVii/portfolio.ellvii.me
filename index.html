@@ -347,41 +347,8 @@
       </div>
     </section>
 
-    <!-- Portfolio Assistant (chat) -->
-    <section class="border-t border-slate-200 pt-10">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold">Ask the Portfolio Assistant</h2>
-        <!-- subtle KB link, right -->
-        <a href="https://portfolio.ellvii.me/kcs-kb-article.html"
-           class="inline-flex items-center gap-1 rounded-xl border border-amber-500 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-amber-50">
-          KB Case Study →
-        </a>
-      </div>
-      <p class="mt-2 text-slate-600 text-sm">
-        Try: <em>KCS results</em>, <em>HIPAA</em>, <em>ServiceNow SOP</em>, or <em>dashboard</em>.
-      </p>
- // Load data
-  async function init(){
-    try{
-      const res = await fetch('/assets/portfolio-index.json', { cache: 'no-store' });
-      data = await res.json();
-      fuse = new Fuse(data, {
-        includeScore: true,
-        threshold: 0.38,
-        keys: ['title','tags','summary','bullets','skills','role','content']
-      });
-      <div id="chatLog" class="mt-4 min-h-[140px] rounded-2xl border border-slate-200 p-4"></div>
-
-      <form id="chatForm" class="mt-3 flex gap-2">
-        <input id="chatInput" type="text"
-               placeholder="Ask about my experience, metrics, or tools…"
-               class="flex-1 rounded-xl border border-slate-300 px-4 py-2 outline-none focus:ring-2 focus:ring-amber-500" />
-        <button class="rounded-xl border border-amber-500 px-4 py-2 text-sm font-semibold hover:bg-amber-50" type="submit">
-          Send
-        </button>
-      </form>
+  
     </section>
-
     <!-- Contact -->
     <section class="border-t border-slate-200 pt-8">
       <h2 class="text-xl font-semibold">Contact</h2>
