@@ -7,6 +7,29 @@
     <div class="lpb-controls">
       <button class="lpb-btn" id="lpbMin" title="Minimize">–</button>
       <button class="lpb-btn" id="lpbClose" title="Close">✕</button>
+      // After your DOM elements are created
+const fab = document.querySelector('.lpb-fab');
+const panel = document.querySelector('.lpb-panel');
+
+// Create a close button inside the header
+const header = panel.querySelector('.lpb-header');
+const closeBtn = document.createElement('button');
+closeBtn.textContent = '×';
+closeBtn.className = 'lpb-btn';
+closeBtn.style.fontSize = '16px';
+closeBtn.style.lineHeight = '1';
+closeBtn.title = 'Close chat';
+header.appendChild(closeBtn);
+
+// Toggle visibility when bubble or close button clicked
+fab.addEventListener('click', () => {
+  const isVisible = panel.style.display === 'block';
+  panel.style.display = isVisible ? 'none' : 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+  panel.style.display = 'none';
+});
     </div>
   </div>
   <div class="lpb-chipbar" id="lpbChips">
