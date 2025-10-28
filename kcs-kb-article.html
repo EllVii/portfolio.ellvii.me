@@ -229,43 +229,70 @@
       $form.dispatchEvent(new Event('submit', {cancelable:true}));
     }
   });
-
+// --- AI helper (Netlify function) ---
+async function askAI(q, hits){
+  try {
+    const res = await fetch('/.netlify/functions/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q, topHits: hits })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const json = await res.json();
+    return (json?.text || '').trim();
+  } catch (e) {
+    console.warn('AI unavailable:', e.message || e);
+    return null;
+  }
+}
   // Submit
-  $form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const q = $input.value.trim();
-    if(!q) return;
-    post('user', q);
+$form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const q = $input.value.trim();
+  if(!q) return;
+  post('user', q);
+  $input.value = '';
 
-    if(!fuse){ post('bot','Search unavailable.'); return; }
+  if(!fuse){ post('bot','Search unavailable.'); return; }
 
-    const hits = fuse.search(q).slice(0,5).map(x=>x.item);
-    if(!hits.length){
-      post('bot', `No exact match. Try terms like <b>KCS</b>, <b>ServiceNow</b>, <b>SOP</b>, <b>HIPAA</b>, or <b>dashboard</b>.`);
-    } else {
-      const reply = hits.map(h=>{
-        const metrics = [];
-        if (h.metrics?.repeat_calls_reduction_pct) metrics.push(`↓ Repeat Calls: <b>${h.metrics.repeat_calls_reduction_pct}%</b>`);
-        if (h.metrics?.aht_reduction_pct) metrics.push(`↓ AHT: <b>${h.metrics.aht_reduction_pct}%</b>`);
-        if (h.metrics?.escalation_resolution_improvement_pct) metrics.push(`↓ Escalation Time: <b>${h.metrics.escalation_resolution_improvement_pct}%</b>`);
-        return `
-          <div class="lpb-card">
-            <div style="font-size:12px;color:var(--muted)">${h.type === 'resume' ? 'Source: Resume' : 'Source: Project'}</div>
-            <div style="font-weight:700;margin-top:2px;">${h.title}</div>
-            ${h.summary ? `<div style="font-size:13px;color:#555;margin-top:4px;">${h.summary}</div>` : ''}
-            ${ (h.tags && h.tags.length) ? `<div class="lpb-tags">${h.tags.map(badge).join('')}</div>` : '' }
-            ${ metrics.length ? `<div style="margin-top:6px;font-size:13px;">${metrics.join(' · ')}</div>` : '' }
-            <div style="margin-top:8px;">
-              ${h.url ? `<a class="lpb-cta" href="${h.url}" target="_blank" rel="noopener">Open</a>` : ''}
-              ${h.source_pdf ? `<a class="lpb-cta" href="${h.source_pdf}" target="_blank" rel="noopener">View PDF</a>` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
-      post('bot', reply);
-    }
-    $input.value = '';
-  });
+  const hits = fuse.search(q).slice(0,5).map(x=>x.item);
+  if(!hits.length){
+    post('bot', `No exact match. Try terms like <b>KCS</b>, <b>ServiceNow</b>, <b>SOP</b>, <b>HIPAA</b>, or <b>dashboard</b>.`);
+    return;
+  }
+
+  // 1) Show your existing cards
+  const reply = hits.map(h=>{
+    const metrics = [];
+    if (h.metrics?.repeat_calls_reduction_pct) metrics.push(`↓ Repeat Calls: <b>${h.metrics.repeat_calls_reduction_pct}%</b>`);
+    if (h.metrics?.aht_reduction_pct) metrics.push(`↓ AHT: <b>${h.metrics.aht_reduction_pct}%</b>`);
+    if (h.metrics?.escalation_resolution_improvement_pct) metrics.push(`↓ Escalation Time: <b>${h.metrics.escalation_resolution_improvement_pct}%</b>`);
+
+    return `
+      <div class="lpb-card">
+        <div style="font-size:12px;color:var(--muted)">${h.type === 'resume' ? 'Source: Resume' : 'Source: Project'}</div>
+        <div style="font-weight:700;margin-top:2px;">${h.title}</div>
+        ${h.summary ? `<div style="font-size:13px;color:#555;margin-top:4px;">${h.summary}</div>` : ''}
+        ${(h.tags||[]).length ? `<div class="lpb-tags">${h.tags.map(t=>`<span class="lpb-tag">${t}</span>`).join('')}</div>` : ''}
+        ${metrics.length ? `<div style="margin-top:6px;font-size:13px;">${metrics.join(' · ')}</div>` : ''}
+        <div style="margin-top:8px;">
+          ${h.url ? `<a class="lpb-cta" href="${h.url}" target="_blank" rel="noopener">Open</a>` : ''}
+          ${h.source_pdf ? `<a class="lpb-cta" href="${h.source_pdf}" target="_blank" rel="noopener">View PDF</a>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+  post('bot', reply);
+
+  // 2) Ask AI for a short, grounded summary (if your Netlify function + key are set)
+  const typing = post('bot', `<span style="opacity:.7">Summarizing…</span>`);
+  const aiText = await askAI(q, hits);
+  typing.remove();
+
+  if (aiText) {
+    post('bot', aiText.replace(/\n/g,'<br>'));
+  }
+});
 
   // Keyboard: "/" focuses input when open
   window.addEventListener('keydown', (e)=>{
