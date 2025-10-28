@@ -1,0 +1,6 @@
+[build]
+  publish = "."   # this is where index.html lives
+
+[functions]
+  directory = "netlify/functions"   # where ai.js lives
+  node_bundler = "esbuild"          # recommended for Netlify
